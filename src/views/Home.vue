@@ -50,30 +50,20 @@ export default {
   components: {
     BoxWrapper
   },
-  created() {
-    getGlobalCases()
-      .then(response => {
-        this.globalCase = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  async created() {
+    const response = await getGlobalCases();
+    this.globalCase = response.data;
 
-    getIpCountryCase()
-      .then(result => {
-        this.countryCode = result.countryCode;
-        this.ipCountryCase = result.data;
-        return getCountryName();
-      })
-      .then(response => {
-        const countries = response.data.countries;
-        this.countryName = Object.keys(countries).find(
-          country => countries[country] === this.countryCode
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const ipResponse = await getIpCountryCase();
+    this.countryCode = ipResponse.countryCode;
+    this.ipCountryCase = ipResponse.data;
+
+    const countryNamesResponse = await getCountryName();
+    const countries = countryNamesResponse.data.countries;
+    const countryName = Object.keys(countries).find(country => {
+      return countries[country].iso2 === this.countryCode;
+    });
+    this.countryName = countries[countryName].name;
   }
 };
 </script>
