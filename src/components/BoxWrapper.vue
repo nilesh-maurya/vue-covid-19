@@ -1,18 +1,27 @@
 <template>
   <div class="wrapper">
-    <Box :count="report.confirmed.value">Confirmed</Box>
-    <Box :count="report.recovered.value">Recovered</Box>
-    <Box :count="report.deaths.value">Deaths</Box>
-    <Box :count="active">Active</Box>
+    <Loading v-if="loading">Confirmed</Loading>
+    <Box v-else :count="report.confirmed.value">Confirmed</Box>
+    <Loading v-if="loading">Recovered</Loading>
+    <Box v-else :count="report.recovered.value">Recovered</Box>
+    <Loading v-if="loading">Deaths</Loading>
+    <Box v-else :count="report.deaths.value">Deaths</Box>
+    <Loading v-if="loading">Active</Loading>
+    <Box v-else :count="active">Active</Box>
   </div>
 </template>
 
 <script>
-import Box from "./Box";
+import Box from "./Box.vue";
+import Loading from "./Loading.vue";
+
 export default {
   props: {
     report: {
       type: Object
+    },
+    loading: {
+      type: Boolean
     }
   },
   computed: {
@@ -21,10 +30,17 @@ export default {
         this.report.confirmed.value -
         (this.report.recovered.value + this.report.deaths.value)
       );
+    },
+    currentComponent() {
+      if (this.loading) {
+        return "loading";
+      }
+      return "box";
     }
   },
   components: {
-    Box
+    Box,
+    Loading
   }
 };
 </script>

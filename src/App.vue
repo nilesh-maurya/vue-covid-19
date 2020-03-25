@@ -5,6 +5,15 @@
       <!-- <router-link to="/country">Country</router-link> -->
     </div>
     <router-view />
+    <footer>
+      <p>
+        Data sources from
+        <a href="https://github.com/mathdroid/covid-19-api" target="_blank"
+          >Muhammad Mustadi's</a
+        >
+        API
+      </p>
+    </footer>
   </div>
 </template>
 
@@ -50,5 +59,9 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
   margin: 1rem;
+}
+
+footer {
+  margin: 30px 0 0 0;
 }
 </style>

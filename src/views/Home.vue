@@ -3,28 +3,32 @@
     <div class="global-case">
       <h2>Global Case</h2>
       <p class="last-updated">Last Updated: {{ GlobalLastUpdated || "" }}</p>
-      <box-wrapper :report="globalCase"></box-wrapper>
+      <box-wrapper
+        :loading="isGlobalCasesLoading"
+        :report="globalCase"
+      ></box-wrapper>
     </div>
     <div class="ip__country">
       <h2>{{ countryName }}</h2>
       <p class="last-updated">Last Updated: {{ IpLastUpdated || "" }}</p>
-      <box-wrapper :report="ipCountryCase"></box-wrapper>
+      <box-wrapper
+        :loading="isIpCountryCasesLoading"
+        :report="ipCountryCase"
+      ></box-wrapper>
     </div>
   </div>
 </template>
 
 <script>
 import BoxWrapper from "../components/BoxWrapper.vue";
-import {
-  getGlobalCases,
-  getIpCountryCase,
-  getCountryName
-} from "../Services/ApiService";
+import { getGlobalCases, getIpCountryCase } from "../Services/ApiService";
 
 export default {
   name: "Home",
   data() {
     return {
+      isGlobalCasesLoading: true,
+      isIpCountryCasesLoading: true,
       globalCase: {},
       ipCountryCase: {},
       countryCode: "",
@@ -53,17 +57,12 @@ export default {
   async created() {
     const response = await getGlobalCases();
     this.globalCase = response.data;
+    this.isGlobalCasesLoading = false;
 
     const ipResponse = await getIpCountryCase();
-    this.countryCode = ipResponse.countryCode;
-    this.ipCountryCase = ipResponse.data;
-
-    const countryNamesResponse = await getCountryName();
-    const countries = countryNamesResponse.data.countries;
-    const countryName = Object.keys(countries).find(country => {
-      return countries[country].iso2 === this.countryCode;
-    });
-    this.countryName = countries[countryName].name;
+    this.ipCountryCase = ipResponse.countryCases;
+    this.countryName = ipResponse.countryName;
+    this.isIpCountryCasesLoading = false;
   }
 };
 </script>
