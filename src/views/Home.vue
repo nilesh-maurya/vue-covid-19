@@ -78,6 +78,6 @@ export default {
 .last-updated {
   padding: 0 0 1rem 0;
   font-size: 0.8rem;
-  color: #42b983;
+  color: var(--primary);
 }
 </style>

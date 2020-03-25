@@ -21,6 +21,8 @@
 </template>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,700&display=swap");
+
 *,
 *::before,
 *::after {
@@ -28,13 +30,17 @@
   padding: 0;
 }
 
+:root {
+  --primary: #42b983;
+}
+
 ::-moz-selection {
-  background-color: rebeccapurple;
+  background-color: var(--primary);
   color: white;
 }
 
 ::selection {
-  background-color: rebeccapurple;
+  background-color: var(--primary);
   color: white;
 }
 
@@ -43,7 +49,7 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto Mono", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -60,11 +66,14 @@ body {
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: var(--primary);
   margin: 1rem;
 }
 
 footer {
-  margin: 30px 0 0 0;
+  margin: 30px 0;
+}
+footer a {
+  color: var(--primary);
 }
 </style>

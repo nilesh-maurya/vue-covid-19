@@ -49,29 +49,21 @@ export default {
 .wrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
 }
 
 .box:nth-child(1) {
   color: orangered;
 }
 .box:nth-child(2) {
-  color: #42b983;
+  color: var(--primary);
 }
 .box:nth-child(3) {
   color: red;
 }
 .box:nth-child(4) {
   color: Orange;
-}
-
-@media screen and (max-width: 375px) {
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 }
 </style>

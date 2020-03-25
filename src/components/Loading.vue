@@ -13,18 +13,18 @@ export default {};
 
 <style scoped>
 .box {
-  width: 12rem;
-  text-align: center;
-  margin-bottom: 1rem;
+  min-width: 10rem;
+  background-color: #fefefe;
+  margin: 1rem;
   padding: 1rem 0;
   border-radius: 10px;
-  background-color: #fefefe;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 h2 {
-  margin: 0 60px;
-  height: 28px;
+  margin: 0 40px;
+  height: 25px;
   border-radius: 6px;
   background-color: #d6dfdf;
   text-align: center;
@@ -41,7 +41,7 @@ h2::after {
   bottom: 0;
   right: 0;
   transform: translateX(-100%);
-  animation: shimmer ease 1s forwards infinite;
+  animation: shimmer ease 0.5s forwards infinite;
 }
 
 @keyframes shimmer {
@@ -51,7 +51,7 @@ h2::after {
 }
 
 .box__text {
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.5rem;
   color: #271b52;
 }
