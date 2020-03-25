@@ -8,7 +8,10 @@
     <footer>
       <p>
         Data sources from
-        <a href="https://github.com/mathdroid/covid-19-api" target="_blank"
+        <a
+          href="https://github.com/mathdroid/covid-19-api"
+          target="_blank"
+          rel="noopener noreferrer"
           >Muhammad Mustadi's</a
         >
         API
