@@ -9,21 +9,28 @@ const getGlobalCases = () => {
   return apiClient.get("/");
 };
 
-const getIpCountryCase = () => {
+const getCountries = () => {
+  return apiClient
+    .get("/countries")
+    .then(res => {
+      return res.data.countries;
+    })
+    .catch(err => {
+      console.log("Country case error", err);
+    });
+};
+
+const getIpCountryCase = countries => {
   return fetch("https://ipapi.co/country")
     .then(response => {
       return response.text();
     })
     .then(async countryCode => {
-      const countryCasesPromise = apiClient.get(`/countries/${countryCode}`);
-      const countryNamePromise = apiClient.get("/countries");
+      const { data: countryCases } = await apiClient.get(
+        `/countries/${countryCode}`
+      );
 
-      const [
-        { data: countryCases },
-        { data: countryNames }
-      ] = await Promise.all([countryCasesPromise, countryNamePromise]);
-
-      const countryName = countryNames.countries.find(country => {
+      const countryName = countries.find(country => {
         return country.iso2 === countryCode;
       });
 
@@ -34,4 +41,12 @@ const getIpCountryCase = () => {
     });
 };
 
-export { getGlobalCases, getIpCountryCase };
+const getCountryCase = async countryCode => {
+  const { data: countryCases } = await apiClient.get(
+    `/countries/${countryCode}`
+  );
+
+  return countryCases;
+};
+
+export { getGlobalCases, getCountries, getIpCountryCase, getCountryCase };

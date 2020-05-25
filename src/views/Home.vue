@@ -9,7 +9,17 @@
       ></box-wrapper>
     </div>
     <div class="ip__country">
-      <h2>{{ countryName }}</h2>
+      <!-- <h2>{{ countryName }}</h2> -->
+      <select class="select" name="country" @change="handleChange">
+        <option
+          v-for="(country, i) in countries"
+          :key="i"
+          :value="country.iso2"
+          :selected="country.name === countryName"
+        >
+          {{ country.name }}
+        </option>
+      </select>
       <p class="last-updated">Last Updated: {{ IpLastUpdated || "" }}</p>
       <box-wrapper
         :loading="isIpCountryCasesLoading"
@@ -21,7 +31,12 @@
 
 <script>
 import BoxWrapper from "../components/BoxWrapper.vue";
-import { getGlobalCases, getIpCountryCase } from "../Services/ApiService";
+import {
+  getGlobalCases,
+  getCountries,
+  getIpCountryCase,
+  getCountryCase
+} from "../Services/ApiService";
 
 export default {
   name: "Home",
@@ -32,6 +47,7 @@ export default {
       globalCase: {},
       ipCountryCase: {},
       countryCode: "",
+      countries: [],
       countryName: ""
     };
   },
@@ -54,12 +70,30 @@ export default {
   components: {
     BoxWrapper
   },
+  methods: {
+    async handleChange(e) {
+      const countryCode = e.target.value;
+      this.isIpCountryCasesLoading = true;
+
+      const countryCase = await getCountryCase(countryCode);
+
+      this.ipCountryCase = countryCase;
+      this.isIpCountryCasesLoading = false;
+    }
+  },
   async created() {
-    const response = await getGlobalCases();
+    const [response, countries] = await Promise.all([
+      getGlobalCases(),
+      getCountries()
+    ]);
+
     this.globalCase = response.data;
     this.isGlobalCasesLoading = false;
 
-    const ipResponse = await getIpCountryCase();
+    this.countries = countries;
+    console.log(countries);
+
+    const ipResponse = await getIpCountryCase(countries);
     this.ipCountryCase = ipResponse.countryCases;
     this.countryName = ipResponse.countryName;
     this.isIpCountryCasesLoading = false;
@@ -79,5 +113,25 @@ export default {
   padding: 0 0 1rem 0;
   font-size: 0.8rem;
   color: var(--primary);
+}
+
+.select {
+  width: 200px;
+  text-align: center;
+  border: 2px solid #2c3e50;
+  margin-bottom: 15px;
+  padding: 5px 0;
+}
+
+.select:focus,
+.select::-moz-focus-inner,
+.select::-moz-focus-outer {
+  outline: none;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+  outline: none !important;
 }
 </style>
