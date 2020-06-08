@@ -118,20 +118,7 @@ export default {
 .select {
   width: 200px;
   text-align: center;
-  border: 2px solid #2c3e50;
   margin-bottom: 15px;
   padding: 5px 0;
-}
-
-.select:focus,
-.select::-moz-focus-inner,
-.select::-moz-focus-outer {
-  outline: none;
-}
-
-* {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
-  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
-  outline: none !important;
 }
 </style>
